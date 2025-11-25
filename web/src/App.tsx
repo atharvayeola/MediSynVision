@@ -18,7 +18,7 @@ function App() {
     setInferenceTime(null);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/generate', {
+      const response = await axios.post('http://localhost:8001/api/generate', {
         prompt: prompt,
         steps: 30,
         guidance_scale: 7.5

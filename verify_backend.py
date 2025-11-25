@@ -9,7 +9,7 @@ def verify():
     print("Starting backend server...")
     # Start the server in the background
     process = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn", "src.api.app:app", "--port", "8000"],
+        [sys.executable, "-m", "uvicorn", "src.api.app:app", "--port", "8001"],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
@@ -19,7 +19,7 @@ def verify():
         print("Waiting for server to be ready...")
         for _ in range(30):
             try:
-                resp = requests.get("http://localhost:8000/health")
+                resp = requests.get("http://localhost:8001/health", timeout=1)
                 if resp.status_code == 200:
                     print("Server is ready!")
                     break
@@ -38,7 +38,7 @@ def verify():
             "seed": 42
         }
         
-        resp = requests.post("http://localhost:8000/api/generate", json=payload)
+        resp = requests.post("http://localhost:8001/api/generate", json=payload, timeout=60)
         if resp.status_code != 200:
             print(f"Generation failed with status {resp.status_code}: {resp.text}")
             return False
